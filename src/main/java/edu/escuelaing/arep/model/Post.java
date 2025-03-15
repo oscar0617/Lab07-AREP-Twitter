@@ -1,35 +1,38 @@
 package edu.escuelaing.arep.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+@Entity
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long usernameId;
+
+    private String username;
     private String content;
+    private String nombreHilo;
 
-    public Post(){}
+    public Post() {}
 
-    public String getContent() {
-        return content;
+    public Post(String username, String content, String nombreHilo) {
+        this.username = username;
+        this.content = content;
+        this.nombreHilo = nombreHilo;
     }
 
     public Long getId() {
         return id;
     }
-    
-    public Long getUsernameId() {
-        return usernameId;
+
+    public String getUsername() {
+        return username;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public String getContent() {
+        return content;
     }
 
-    public void setUsernameId(Long usernameId) {
-        this.usernameId = usernameId;
+    public String getNombreHilo() {
+        return nombreHilo;
     }
 }

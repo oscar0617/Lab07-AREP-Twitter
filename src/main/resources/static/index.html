@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Mini Twitter</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1 class="titulo">Mini Twitter</h1>
+
+    <div class="mainContainer">
+        <div class="userContainer">
+            <p>Usuario logueado: <span id="logged-user">Cargando...</span></p>
+        </div>
+        <div class="postFormContainer">
+            <h2>Escribe un post</h2>
+            <label for="hilo-select">Selecciona un hilo:</label>
+            <select id="hilo-select">
+                <option value="" disabled selected>Cargando hilos...</option>
+            </select>
+            <label for="post-content">Contenido del post:</label>
+            <textarea id="post-content" placeholder="Máximo 140 caracteres..." maxlength="140"></textarea>
+            <button class="boton" id="post-btn">Postear</button>
+        </div>
+        <div class="postsContainer">
+            <h2>Hilos y Posts</h2>
+            <div id="posts-container">
+                <p>Cargando posts...</p>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

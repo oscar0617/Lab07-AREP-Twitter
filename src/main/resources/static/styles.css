@@ -1,0 +1,141 @@
+.titulo{
+    text-align: center;
+    font-family: "Montserrat", serif;
+    font-style: bold;
+    font-weight: 800;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    background-color: #88a6eb;
+    justify-content: center;
+    align-items: center;
+}
+
+.mainContainer {
+    width: 50%;
+    padding: 40px;
+    background-color: #afc5f9;
+    display: flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content: center;
+    border-radius: 30px;
+    gap: 20px;
+}
+
+.boton {
+    background-color: #4e8cf6b3;
+    border: none;
+    color: white;
+    padding: 15px 12px;
+    text-align: center;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 15px;
+    margin: auto; 
+    display: block;
+    gap: 5px;
+}
+
+.inputInfo{
+    width: 100%;
+    padding: 10px 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+.userContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Montserrat", serif;
+    font-weight: 500;
+}
+
+.postFormContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
+    gap: 7px;
+}
+
+.postFormContainer h2{
+    text-align: center;
+    font-family: "Montserrat", serif;
+    font-style: bold;
+    font-weight: 700;
+}
+
+.postFormContainer label{
+    text-align: center;
+    font-family: "Montserrat", serif;
+    font-weight: 400;
+}
+
+.postFormContainer select{
+    width: 50%;
+    padding: 5px 5px;
+    border-radius: 20px;
+    background-color: rgb(231, 241, 250);
+    text-align: center;
+    font-family: "Montserrat", serif;
+    font-weight: 400;
+}
+
+.postFormContainer textarea{
+    text-align: center;
+    font-family: "Montserrat", serif;
+    font-weight: 400;
+    width: 80%;
+    padding: 5px 5px;
+    border-radius: 10px;
+    background-color:  rgb(231, 241, 250);
+    height: 60px;
+    resize: none;
+}
+
+.postsContainer{
+    background-color: #ccd9f7;
+    border-radius: 10px;
+    width: 50%;
+    border-color: black;
+    border: solid;
+    display: flex;
+    flex-direction: column;
+}
+
+.postsContainer h2{
+    text-align: center;
+    font-family: "Montserrat", serif;
+    font-weight: bold;
+}
+
+.postsContainer p{
+    text-align: center;
+    font-family: "Montserrat", serif;
+    font-weight: 400;
+}
+
+.postsContainer h3{
+    text-align: left;
+    padding-left: 15px;
+    font-family: "Montserrat", serif;
+    font-weight: bold;
+}
+
+
+
+
+
+
+@media (min-width: 768px) {
+    .mainContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+}
