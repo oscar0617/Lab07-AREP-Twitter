@@ -22,7 +22,7 @@ public class SecurityConfiguration {
                 .anyRequest().permitAll()
             )
             .formLogin(form -> form
-                .loginPage("/index.html")
+                .loginPage("/login.html")
                 .permitAll()
             )
             .logout(logout -> logout

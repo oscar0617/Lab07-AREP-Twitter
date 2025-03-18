@@ -1,3 +1,6 @@
+let IPADDRESS = "localhost";
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const loggedUserElement = document.getElementById("logged-user");
     const hiloSelect = document.getElementById("hilo-select");
@@ -5,14 +8,79 @@ document.addEventListener("DOMContentLoaded", function () {
     const postButton = document.getElementById("post-btn");
     const postsContainer = document.getElementById("posts-container");
 
-    let loggedUser = "oscarin admin"; // Simulado, debería obtenerse del backend
+    let loggedUser = localStorage.getItem("usuario");
 
-    // Mostrar usuario logueado
-    loggedUserElement.textContent = loggedUser;
+    if (loggedUser && loggedUserElement) {
+        loggedUserElement.textContent = loggedUser;
+    }
 
+//Seguridad y login
+    window.addEventListener('load', function () {
+        const currentPage = window.location.pathname;
+    
+        if (!localStorage.getItem('loggedIn') && 
+            !currentPage.includes('login.html') && 
+            !currentPage.includes('registro.html')) {
+            window.location.href = 'login.html';
+        }
+    });
+
+    if (document.getElementById('loginForm')) {
+        const loginForm = document.getElementById('loginForm');
+        loginForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            fetch(`http://${IPADDRESS}:8080/users/authenticate`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password }),
+                credentials: 'include' 
+            })
+            .then(response => {
+                if (response.ok) {
+                    localStorage.setItem('loggedIn', 'true');
+                    alert('Inicio de sesión exitoso');
+                    window.location.href = 'index.html';
+                    localStorage.setItem('usuario', username)
+                } else {
+                    alert('Credenciales inválidas');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    }
+
+    if (document.getElementById('registerForm')) {
+        const registerForm = document.getElementById('registerForm');
+        registerForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const username = document.getElementById('registerUsername').value;
+            const password = document.getElementById('registerPassword').value;
+
+            fetch(`http://${IPADDRESS}:8080/users/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password }),
+                credentials: 'include' 
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Usuario registrado exitosamente');
+                    window.location.href = 'login.html';
+                } else {
+                    alert('Error al registrar el usuario');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    }
+
+    
     // 🔹 Obtener la lista de hilos
     function cargarHilos() {
-        fetch("http://localhost:8080/hilos/all")
+        fetch(`http://${IPADDRESS}:8080/hilos/all`)
             .then(response => {
                 if (!response.ok) throw new Error("Error en la respuesta del servidor");
                 return response.json();
@@ -36,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function cargarPosts() {
         postsContainer.innerHTML = "<p>Cargando posts...</p>";
 
-        fetch("http://localhost:8080/posts")
+        fetch(`http://${IPADDRESS}:8080/posts`)
             .then(response => {
                 if (!response.ok) throw new Error("Error en la respuesta del servidor");
                 return response.json();
@@ -89,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        fetch("http://localhost:8080/posts", {
+        fetch(`http://${IPADDRESS}:8080/posts`, {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: `username=${loggedUser}&nombreHilo=${encodeURIComponent(selectedHilo)}&content=${encodeURIComponent(content)}`
