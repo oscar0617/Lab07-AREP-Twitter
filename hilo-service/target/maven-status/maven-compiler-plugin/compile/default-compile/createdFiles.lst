@@ -1,0 +1,6 @@
+edu\escuelaing\arep\model\Hilo.class
+edu\escuelaing\arep\service\HiloService.class
+edu\escuelaing\arep\controller\HiloController.class
+edu\escuelaing\arep\SecureapplicationApplication.class
+edu\escuelaing\arep\config\SecurityConfiguration.class
+edu\escuelaing\arep\repository\HiloRespository.class
