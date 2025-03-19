@@ -15,7 +15,6 @@ import java.net.URI;
 @RequestMapping("/users")
 public class UserController {
 
-    // 🔥 URL de login de Cognito
     private static final String COGNITO_LOGIN_URL = "https://us-east-11xrvet0n4.auth.us-east-1.amazoncognito.com/login"
             + "?client_id=37hclu5v65ut7f6q978aaj10ss"
             + "&response_type=code"
@@ -28,9 +27,9 @@ public class UserController {
             System.out.println("Usuario no autenticado, redirigiendo a Cognito...");
             HttpHeaders headers = new HttpHeaders();
             headers.setLocation(URI.create(COGNITO_LOGIN_URL));
-            return ResponseEntity.status(302).headers(headers).build(); // 🔄 Redirección directa a Cognito
+            return ResponseEntity.status(302).headers(headers).build();
         }
         System.out.println("Usuario autenticado: " + oidcUser.getEmail());
-        return ResponseEntity.ok(oidcUser.getClaims()); // 🔥 Retorna info del usuario autenticado
+        return ResponseEntity.ok(oidcUser.getClaims());
     }
 }

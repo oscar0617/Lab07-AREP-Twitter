@@ -18,10 +18,10 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Habilitar CORS
-            .csrf(csrf -> csrf.disable()) // Desactivar CSRF para permitir cualquier solicitud
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .anyRequest().permitAll() // Permitir todas las solicitudes sin autenticación
+                .anyRequest().permitAll()
             );
 
         return http.build();
@@ -30,10 +30,10 @@ public class SecurityConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of("*")); // Permitir cualquier origen
+        configuration.setAllowedOriginPatterns(List.of("*"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*")); // Permitir todos los headers
-        configuration.setAllowCredentials(false); // No usar credenciales para permitir "*"
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(false);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

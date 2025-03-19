@@ -6,10 +6,6 @@ import org.springframework.context.annotation.Import;
 
 import edu.escuelaing.arep.controller.PostController;
 
-
-
-
-
 @SpringBootApplication
 // We use direct @Import instead of @ComponentScan to speed up cold starts
 // @ComponentScan(basePackages = "org.example.controller")
