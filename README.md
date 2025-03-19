@@ -103,8 +103,17 @@ Keep in mind that you will need an active AWS account to run this project on clo
 
 #### MicroServices
 
-1. First we will need to divide the project into three parts, one that will handle the login system, another that will be in charge of managing the threads and another that will be in charge of managing the posts.
+1. First, we'll need to divide the project into three parts: one that will manage the login system, another that will manage the threads, and another that will manage the posts.
 
+We will have 3 different directories with their respective files.
+
+![](images\1.png)
+
+Something like this:
+
+![](images\2.png)
+
+2. 
 
 ## Architecture
 
