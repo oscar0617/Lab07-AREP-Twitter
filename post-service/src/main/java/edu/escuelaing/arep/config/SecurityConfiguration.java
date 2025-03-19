@@ -2,12 +2,14 @@ package edu.escuelaing.arep.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -16,24 +18,26 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Habilitar CORS
+            .csrf(csrf -> csrf.disable()) // Desactivar CSRF para permitir cualquier solicitud
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/public/**").permitAll() // Permitir acceso sin autenticación a ciertos endpoints
-                .anyRequest().authenticated() // Requiere autenticación en todos los demás endpoints
-            )
-            .oauth2ResourceServer(oauth2 -> oauth2
-                .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
+                .anyRequest().permitAll() // Permitir todas las solicitudes sin autenticación
             );
 
         return http.build();
     }
 
-    private JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        grantedAuthoritiesConverter.setAuthorityPrefix("ROLE_"); // Prefijo para roles
-        grantedAuthoritiesConverter.setAuthoritiesClaimName("cognito:groups"); // Tomar roles de Cognito
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(List.of("*")); // Permitir cualquier origen
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*")); // Permitir todos los headers
+        configuration.setAllowCredentials(false); // No usar credenciales para permitir "*"
 
-        JwtAuthenticationConverter authenticationConverter = new JwtAuthenticationConverter();
-        authenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
-        return authenticationConverter;
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
+
