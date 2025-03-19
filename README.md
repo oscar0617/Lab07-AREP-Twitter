@@ -5,7 +5,7 @@
 This project manages a microservice-based API designed to allow users to create Twitter-like posts. This project is deployed through AWS using Lambda functions and API gateways, and its JWT security service is implemented with Cognito.
 Below, we'll see how to run it locally and how to deploy the service in the cloud.
 
-#### Pendiente
+![Cloud](images/demo.gif)
 
 ## Getting Started
 
@@ -52,7 +52,6 @@ You need to install the following tools to run the project:
     git version 2.44.0
     ```
 
-
 ### Installing locally
 
 1. Clone this repository and go to project directory:
@@ -95,7 +94,6 @@ You need to install the following tools to run the project:
 After this, you can access your browser with https://localhost:8080 and test the login, registration, and posting system with a local h2 database. To transform it into microservices and implement a more sophisticated login system, follow the next section to deploy it on AWS. Watch this video of the project running locally:
 
 ![Demo](images\Prueba-LocalHost-video.gif)
-
 
 ### Installing on AWS
 
