@@ -14,7 +14,7 @@ import edu.escuelaing.arep.service.HiloService;
 import jakarta.annotation.PostConstruct;
 
 @RestController
-@CrossOrigin(origins = "*", allowCredentials = "true")
+@CrossOrigin(origins = "*")
 @RequestMapping("/hilos")
 public class HiloController {
 
@@ -32,6 +32,7 @@ public class HiloController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Hilo>> getAllHilos() {
+        init();
         return ResponseEntity.ok(hiloService.getAllHilos());
     }
 }

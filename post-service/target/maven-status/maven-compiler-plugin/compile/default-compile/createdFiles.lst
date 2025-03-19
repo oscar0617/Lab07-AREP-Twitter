@@ -1,6 +1,8 @@
-edu\escuelaing\arep\service\PostService.class
+edu\escuelaing\arep\config\LambdaConfig.class
 edu\escuelaing\arep\repository\PostRespository.class
 edu\escuelaing\arep\controller\PostController.class
 edu\escuelaing\arep\SecureapplicationApplication.class
-edu\escuelaing\arep\config\SecurityConfiguration.class
+edu\escuelaing\arep\LambdaHandler.class
 edu\escuelaing\arep\model\Post.class
+edu\escuelaing\arep\service\PostService.class
+edu\escuelaing\arep\config\SecurityConfiguration.class
