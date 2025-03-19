@@ -1,3 +1,4 @@
-edu\escuelaing\arep\SecureapplicationApplication.class
+edu\escuelaing\arep\Application.class
+edu\escuelaing\arep\StreamLambdaHandler.class
 edu\escuelaing\arep\config\SecurityConfiguration.class
 edu\escuelaing\arep\controller\UserController.class
