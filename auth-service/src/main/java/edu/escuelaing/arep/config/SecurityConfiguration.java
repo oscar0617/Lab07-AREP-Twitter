@@ -14,18 +14,18 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-            .csrf(csrf -> csrf.disable()) // 🔹 Desactivar CSRF para evitar bloqueos
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/users").authenticated() // 🔐 Exigir autenticación en `/users`
-                .anyRequest().permitAll() // 🔹 Permitir acceso sin autenticación a todo lo demás
+                .requestMatchers("/users").authenticated()
+                .anyRequest().permitAll()
             )
             .oauth2Login(oauth2 -> oauth2
-                .loginPage("https://us-east-1kusnhvoxd.auth.us-east-1.amazoncognito.com/login"
-                        + "?client_id=1lpipffql2lilim878esdoqcik"
+                .loginPage("https://us-east-11xrvet0n4.auth.us-east-1.amazoncognito.com/login"
+                        + "?client_id=37hclu5v65ut7f6q978aaj10ss"
                         + "&response_type=code"
                         + "&scope=email+openid+phone"
-                        + "&redirect_uri=https%3A%2F%2Fminitwitterarep.s3.us-east-1.amazonaws.com%2Findex.html") // ✅ Redirigir a Cognito
-                .defaultSuccessUrl("https://minitwitterarep.s3.us-east-1.amazonaws.com/index.html", true) // ✅ Redirigir a S3 tras login
+                        + "&redirect_uri=https%3A%2F%2Fminitwitters3.s3.us-east-1.amazonaws.com%2Findex.html")
+                .defaultSuccessUrl("https://minitwitters3.s3.us-east-1.amazonaws.com/index.html", true) 
             )
 
             .build();

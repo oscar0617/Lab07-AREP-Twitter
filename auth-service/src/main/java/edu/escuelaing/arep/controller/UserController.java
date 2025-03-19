@@ -16,11 +16,11 @@ import java.net.URI;
 public class UserController {
 
     // 🔥 URL de login de Cognito
-    private static final String COGNITO_LOGIN_URL = "https://us-east-1kusnhvoxd.auth.us-east-1.amazoncognito.com/login"
-            + "?client_id=1lpipffql2lilim878esdoqcik"
+    private static final String COGNITO_LOGIN_URL = "https://us-east-11xrvet0n4.auth.us-east-1.amazoncognito.com/login"
+            + "?client_id=37hclu5v65ut7f6q978aaj10ss"
             + "&response_type=code"
             + "&scope=email+openid+phone"
-            + "&redirect_uri=https%3A%2F%2Fminitwitterarep.s3.us-east-1.amazonaws.com%2Findex.html";
+            + "&redirect_uri=https%3A%2F%2Fminitwitters3.s3.us-east-1.amazonaws.com%2Findex.html";
 
     @GetMapping
     public ResponseEntity<Object> getUserInfo(@AuthenticationPrincipal OidcUser oidcUser, HttpServletRequest request) {
