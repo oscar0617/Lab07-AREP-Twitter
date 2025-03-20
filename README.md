@@ -105,18 +105,18 @@ Keep in mind that you will need an active AWS account to run this project on clo
 
 We will have 3 different directories with their respective files.
 
-![](images\1.png)
+![.](images\1.png)
 
 Something like this:
 
-![](images\2.png)
+![.](images\2.png)
 
 2. Now we will go to the AWS interface and create a bucket in S3 where we will upload the static files of the Frontend (Index.html, Styles.css, Script.js). To deploy, we need to configure the static website hosting in the properties and in the permissions section, we will disable public access to access the Internet and add the following policy:
 
 
     You must have this activated:
 
-    ![](images\3.png)
+    ![.](images\3.png)
 
 3. we will disable public access to access the Internet and add the following policy:
     ```
@@ -135,17 +135,17 @@ Something like this:
 
     It should look something similar to the imagen:
 
-    ![](images\4.png)
+    ![.](images\4.png)
 
 4. Now we can join into our Frontend and see how it works.
 
     Check the index file and click in the open button to test it.
 
-    ![](images\5.png)
+    ![.](images\5.png)
 
     It should look something similar to the imagen:
 
-    ![](images\6.png)
+    ![.](images\6.png)
 
 
 ### Amazon Cognito
@@ -154,25 +154,25 @@ Something like this:
 
 Now created, we can see the name of the client and the ID client, it will be used later. If we want to see how it looks we can click the "view login page" button.
 
-![](images\7.png)
+![.](images\7.png)
 
 You're going to see something similar:
 
-![](images\10.png)
+![.](images\10.png)
 
 2. In the session home page section we can verify that the callback to the bucket is correctly configured.
 
-![](images\9.png)
+![.](images\9.png)
 
 3. In the user management section we will find all the users who have registered in the application.
 
-![](images\8.png)
+![.](images\8.png)
 
 ### Amazon Lambda
 
 1. In the Amazon Lambda service we will need 3 functions, one for each microservice (auth-service, hilos-service, posts-service)
 
-![](images\11.png)
+![.](images\11.png)
 
 2. For all of them we will follow the same configuration, that is, we load the .zip or .jar file and we will change the path of that for the Stream Lambda Handler  class path and the handleRequest method.
 
@@ -180,25 +180,25 @@ we can see the 3 configured functions:
 
 **auth-service**
 
-![](images\12.png)
+![.](images\12.png)
 
 **hilos-service**
 
-![](images\13.png)
+![.](images\13.png)
 
 **posts-service**
 
-![](images\14.png)
+![.](images\14.png)
 
 3. We also changed the response times of the functions to prevent them from closing the connection early. 
 
-![](images\15.png)
+![.](images\15.png)
 
 ### Amazon API gateway
 
 1. We enter the Amazon API gateway service and we are going to create an API for each microservice.
 
-![](images\16.png)
+![.](images\16.png)
 
 2. For each API we are going to create a resource according to those needed by each microservice, we will go to the "integration request" section and we will activate the integration with lambda and add the name of the function to use.
 
@@ -206,56 +206,56 @@ we can see the 3 configured functions:
 
 For this one we will only create the resource without needing to define an http verb because it is the login system
 
-![](images\17.png)
-![](images\18.png)
+![.](images\17.png)
+![.](images\18.png)
 
 
 **HilosService**
 
 For this we will need to create a get resource to obtain the streams.
 
-![](images\21.png)
-![](images\22.png)
+![.](images\21.png)
+![.](images\22.png)
 
 **PostsService**
 
 
 For this we need two resources, one for creating posts and another to obtain them.
 
-![](images\24.png)
-![](images\25.png)
+![.](images\24.png)
+![.](images\25.png)
 
 
 
 3. The next step is implement the API. To do this, we define a stage. If we don't have one, we must create one. In this example, we'll call it "beta." This will be the route that defines how we access the resource.
 
-![](images\19.png)
+![.](images\19.png)
 
 The next routes will be:
 
 ```
 https://{URL invocation authService}/beta/all
 ```
-![](images\20.png)
+![.](images\20.png)
 
 ```
 https://{URL invocation hilosService}/beta/all
 ```
-![](images\23.png)
+![.](images\23.png)
 
 ```
 https://{URL invocation postsService}/beta/all
 
 https://{URL invocation postsService}/beta/create?params=...
 ```
-![](images\26.png)
+![.](images\26.png)
 
 
 ### LocalConfiguration
 
 1. In the Script.js file we are going to put the POSTS URL and HILOS URL to connect with the frontend.
 
-![](images\27.png)
+![.](images\27.png)
 
 
 
@@ -263,7 +263,7 @@ https://{URL invocation postsService}/beta/create?params=...
 
 This architecture represents a serverless web application hosted on AWS that interacts with a MySQL database running on an EC2 instance. Below is an explanation of the main components and their role in the system:
 
-![](images\28.png)
+![.](images\28.png)
 
 ### Overview
 
@@ -316,7 +316,7 @@ This architecture is highly scalable, secure, and efficient.
 
 This class diagram represents the architecture of a Spring Boot application that manages users, streams, and posts. The system follows a layered architecture with the Repository, Service, Controller, and Model layers, ensuring separation of concerns and maintainability.
 
-![](images\29.png)
+![.](images\29.png)
 
 ### Overview
 
@@ -458,7 +458,7 @@ This test class validates the authentication logic in UserController.
 ### **Test Execution**
 Each of the tests was executed using **JUnit 5** and **Mockito** to mock dependencies and isolate the `PropertyController`. The expected outcomes were met in all cases, validating the correctness of the CRUD operations.
 
-![](images\30.png)
+![.](images\30.png)
 
 
 ## Conclusion
