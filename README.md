@@ -93,6 +93,7 @@ You need to install the following tools to run the project:
     ```
 After this, you can access your browser with https://localhost:8080 and test the login, registration, and posting system with a local h2 database. To transform it into microservices and implement a more sophisticated login system, follow the next section to deploy it on AWS. Watch this video of the project running locally:
 
+
 ![Demo](images\Prueba-LocalHost-video.gif)
 
 ## Installing on AWS
