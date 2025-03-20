@@ -95,11 +95,11 @@ After this, you can access your browser with https://localhost:8080 and test the
 
 ![Demo](images\Prueba-LocalHost-video.gif)
 
-### Installing on AWS
+## Installing on AWS
 
 Keep in mind that you will need an active AWS account to run this project on cloud.
 
-#### MicroServices
+### MicroServices & Deployment on S3
 
 1. First, we'll need to divide the project into three parts: one that will manage the login system, another that will manage the threads, and another that will manage the posts.
 
@@ -111,31 +111,354 @@ Something like this:
 
 ![](images\2.png)
 
-2. 
+2. Now we will go to the AWS interface and create a bucket in S3 where we will upload the static files of the Frontend (Index.html, Styles.css, Script.js). To deploy, we need to configure the static website hosting in the properties and in the permissions section, we will disable public access to access the Internet and add the following policy:
+
+
+    You must have this activated:
+
+    ![](images\3.png)
+
+3. we will disable public access to access the Internet and add the following policy:
+    ```
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Principal": "*",
+                "Action": "s3:GetObject",
+                "Resource": "arn:aws:s3:::minitwitters3/*"
+            }
+        ]
+    }
+    ```
+
+    It should look something similar to the imagen:
+
+    ![](images\4.png)
+
+4. Now we can join into our Frontend and see how it works.
+
+    Check the index file and click in the open button to test it.
+
+    ![](images\5.png)
+
+    It should look something similar to the imagen:
+
+    ![](images\6.png)
+
+
+### Amazon Cognito
+
+1. Now we will enter Amazon Cognito where we will create a new user group to implement the login system, in this case we add a verification system with email or nickname and we will redirect it to the URL of the s3 bucker where we have the index file.
+
+Now created, we can see the name of the client and the ID client, it will be used later. If we want to see how it looks we can click the "view login page" button.
+
+![](images\7.png)
+
+You're going to see something similar:
+
+![](images\10.png)
+
+2. In the session home page section we can verify that the callback to the bucket is correctly configured.
+
+![](images\9.png)
+
+3. In the user management section we will find all the users who have registered in the application.
+
+![](images\8.png)
+
+### Amazon Lambda
+
+1. In the Amazon Lambda service we will need 3 functions, one for each microservice (auth-service, hilos-service, posts-service)
+
+![](images\11.png)
+
+2. For all of them we will follow the same configuration, that is, we load the .zip or .jar file and we will change the path of that for the Stream Lambda Handler  class path and the handleRequest method.
+
+we can see the 3 configured functions:
+
+**auth-service**
+
+![](images\12.png)
+
+**hilos-service**
+
+![](images\13.png)
+
+**posts-service**
+
+![](images\14.png)
+
+3. We also changed the response times of the functions to prevent them from closing the connection early. 
+
+![](images\15.png)
+
+### Amazon API gateway
+
+1. We enter the Amazon API gateway service and we are going to create an API for each microservice.
+
+![](images\16.png)
+
+2. For each API we are going to create a resource according to those needed by each microservice, we will go to the "integration request" section and we will activate the integration with lambda and add the name of the function to use.
+
+**AuthService**
+
+For this one we will only create the resource without needing to define an http verb because it is the login system
+
+![](images\17.png)
+![](images\18.png)
+
+
+**HilosService**
+
+For this we will need to create a get resource to obtain the streams.
+
+![](images\21.png)
+![](images\22.png)
+
+**PostsService**
+
+
+For this we need two resources, one for creating posts and another to obtain them.
+
+![](images\24.png)
+![](images\25.png)
+
+
+
+3. The next step is implement the API. To do this, we define a stage. If we don't have one, we must create one. In this example, we'll call it "beta." This will be the route that defines how we access the resource.
+
+![](images\19.png)
+
+The next routes will be:
+
+```
+https://{URL invocation authService}/beta/all
+```
+![](images\20.png)
+
+```
+https://{URL invocation hilosService}/beta/all
+```
+![](images\23.png)
+
+```
+https://{URL invocation postsService}/beta/all
+
+https://{URL invocation postsService}/beta/create?params=...
+```
+![](images\26.png)
+
+
+### LocalConfiguration
+
+1. In the Script.js file we are going to put the POSTS URL and HILOS URL to connect with the frontend.
+
+![](images\27.png)
+
+
 
 ## Architecture
 
+This architecture represents a serverless web application hosted on AWS that interacts with a MySQL database running on an EC2 instance. Below is an explanation of the main components and their role in the system:
 
+![](images\28.png)
 
-#### Overview
+### Overview
 
+#### 1. User and Internet
+    
+* The user accesses the application through the Internet using a web browser.
+
+#### 2. Amazon S3 (Frontend)
+
+* The application frontend, developed with HTML, CSS, and JavaScript, is hosted and deployed on Amazon S3 as a static website.
+
+* Users can access this site to interact with the application.
+
+#### 3. Amazon Cognito (Authentication)
+
+* Amazon Cognito is used for user authentication management, enabling secure access to protected application resources.
+
+#### 4. Amazon API Gateway
+
+* Amazon API Gateway acts as an intermediary between the frontend and Lambda functions.
+
+* It handles HTTP requests and routes them to the corresponding Lambda functions.
+
+#### 5. AWS Lambda (Serverless Backend)
+
+* The application's business logic is managed through AWS Lambda functions, enabling a serverless backend.
+
+* These functions handle different requests:
+    * GET /beta/users: Retrieves user information.
+    * GET /beta/all: Fetches all relevant records.
+    * POST /beta/create: Creates new records in the database.
+
+#### 6. Amazon EC2 with MySQL (Database)
+
+* The MySQL database runs on an Amazon EC2 instance.
+* Lambda functions connect to this database to perform CRUD operations.
+
+#### Application Flow
+
+1. The user accesses the frontend hosted on Amazon S3.
+2. If required, they authenticate through Amazon Cognito.
+3. The frontend sends requests to API Gateway.
+4. API Gateway invokes Lambda functions based on the request.
+5. Lambda functions process the data and connect to the MySQL database on Amazon EC2.
+6. The response is sent back to the frontend for display.
+
+This architecture is highly scalable, secure, and efficient.
 
 ## Class Diagram
 
+This class diagram represents the architecture of a Spring Boot application that manages users, streams, and posts. The system follows a layered architecture with the Repository, Service, Controller, and Model layers, ensuring separation of concerns and maintainability.
 
-#### Overview
+![](images\29.png)
 
+### Overview
 
+#### 1. Model Layer (Data Representation)
+
+The Model layer defines the entities used in the application:
+
+* Hilo (Thread): Represents a discussion thread.
+
+    * Attributes: id, nombre.
+    * Relationships: A thread contains multiple posts (List<Post>).
+    * Methods: Allows retrieving posts and adding a new post.
+
+* User: Represents an application user.
+
+    * Attributes: id, username, password.
+    * Methods: Getters and setters for attributes.
+
+* Post: Represents a message or post within a thread.
+
+    * Attributes: id, username, content, nombreHilo (thread name).
+    * Methods: Getters and setters for attributes.
+
+#### 2. Repository Layer (Data Access)
+
+The Repository layer provides the data access functionality for each entity:
+
+* HiloRepository: Manages thread (Hilo) persistence.
+* UserRepository: Handles user authentication and storage.
+* PostRepository: Manages post storage and retrieval.
+
+These repositories interact with a database to perform CRUD operations.
+
+#### 3. Service Layer (Business Logic)
+
+The Service layer contains the business logic for handling users, threads, and posts:
+
+* HiloService:
+
+    * Creates and retrieves threads.
+    * Adds posts to a thread.
+
+* UserService:
+
+    * Finds users by ID or username.
+    * Saves new users.
+    * Authenticates users.
+
+* PostService:
+
+    * Creates posts under a thread.
+    * Retrieves all posts.
+
+Each service interacts with its respective repository to perform operations.
+
+#### 4. Controller Layer (API Endpoints)
+
+The Controller layer exposes REST endpoints for external interaction:
+
+* HiloController:
+
+    * Initializes data.
+    * Retrieves all threads.
+
+* UserController:
+
+    * Handles user registration and authentication.
+
+* PostController:
+
+    * Allows users to create posts and retrieve all posts.
+
+Each controller interacts with its respective Service to process requests and return responses using ResponseEntity.
+
+#### Application Flow
+
+1. A user registers or logs in via UserController, which interacts with UserService and UserRepository.
+
+2. Users can retrieve existing threads or create new ones through HiloController and HiloService.
+
+3. Users can post messages inside threads using PostController, which interacts with PostService and PostRepository.
+
+4. All data is stored in a database via the repository layer.
 
 
 
 ## Running the tests
+This project includes unit tests for the main controllers to ensure correct functionality and robustness. The tests are written using JUnit 5 and Mockito, following best practices for testing a Spring Boot application.
 
+#### 1. HiloControllerTest (Thread Controller Tests)
+
+This test class verifies the correct behavior of the HiloController, which manages discussion threads.
+
+* testGetAllHilos()
+    * Mocks the HiloService to return a list of threads (Hilo).
+    * Calls the getAllHilos() endpoint.
+    * Verifies that the HTTP response is 200 OK and contains the expected list of threads.
+    * Ensures that hiloService.getAllHilos() is called exactly once.
+
+#### 2. PostControllerTest (Post Controller Tests)
+
+This test class ensures that PostController correctly handles creating and retrieving posts.
+
+* testCreatePostSuccess()
+
+    * Simulates creating a valid post.
+    * Mocks PostService to return a new post.
+    * Calls createPost() and checks if the response is 200 OK with the correct post object.
+    * Ensures postService.createPost() is called exactly once.
+
+* testCreatePostContentTooLong()
+
+    * Attempts to create a post with more than 140 characters.
+    * Verifies that the response is 400 Bad Request with an appropriate error message.
+    * Ensures that postService.createPost() is never called due to validation.
+
+* testGetAllPosts()
+
+    * Mocks PostService to return a list of posts.
+    * Calls getAllPosts() and verifies the response is 200 OK with the correct list of posts.
+    * Ensures postService.getAllPosts() is called exactly once.
+
+#### 3. UserControllerTest (User Authentication Tests)
+
+This test class validates the authentication logic in UserController.
+
+* testAuthenticateSuccess()
+
+    * Simulates a user logging in with valid credentials.
+    * Mocks UserService to return true for authentication.
+    * Calls authenticate() and checks if the response is 200 OK with "Authenticated" as the response body.
+
+* testAuthenticateFailure()
+
+    * Simulates a user logging in with incorrect credentials.
+    * Mocks UserService to return false for authentication.
+    * Calls authenticate() and verifies that the response is 401 Unauthorized with a null body.
 
 ### **Test Execution**
 Each of the tests was executed using **JUnit 5** and **Mockito** to mock dependencies and isolate the `PropertyController`. The expected outcomes were met in all cases, validating the correctness of the CRUD operations.
 
-
+![](images\30.png)
 
 
 ## Conclusion
