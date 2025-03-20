@@ -98,7 +98,7 @@ After this, you can access your browser with https://localhost:8080 and test the
 
 ## Installing on AWS
 
-Keep in mind that you will need an active AWS account to run this project on cloud.
+Keep in mind that you will need an active AWS account to run this project on cloud. You can find the microservices on this repository on the branch `microservices` to check the full configuration on each microservice.
 
 ### MicroServices & Deployment on S3
 
