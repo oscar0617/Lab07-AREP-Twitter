@@ -464,6 +464,8 @@ Each of the tests was executed using **JUnit 5** and **Mockito** to mock depende
 
 ## Conclusion
 
+This project implements a serverless web application hosted on AWS, integrating various cloud services to ensure scalability, security, and efficiency. The architecture follows a microservices approach, leveraging AWS Lambda for a serverless backend, API Gateway for request handling, Amazon Cognito for authentication, and Amazon S3 for frontend hosting. Data is stored in a MySQL database on an EC2 instance, allowing robust and flexible data management.
+
 
 ## Built With
 
